@@ -28,13 +28,11 @@ db.connect((err) => {
 });
 
 app.get("/user", (req, res) => {
-  db.query(
-    "SELECT * FROM users WHERE email = '" + req.query.email + "'",
-    (err, result) => {
-      if (err) throw err;
-      res.json(result);
-    }
-  );
+  const email = req.query.email;
+  db.query("SELECT * FROM users WHERE email = ?", [email], (err, result) => {
+    if (err) throw err;
+    res.json(result);
+  });
 });
 
 app.post("/login", (req, res) => {
